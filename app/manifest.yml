@@ -1,0 +1,16 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: cloud-run-service
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+      - image: gcr.io/${{ secrets.GCP_PROJECT_ID }}/cloud-run-service
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: database-url-secret
+              key: DATABASE_URL
